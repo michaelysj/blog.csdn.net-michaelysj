@@ -46,6 +46,42 @@ D:\>tt.bat D:\michael
 ```
 [参考链接: 批处理系列(2) - 获取目录文件名或路径](https://www.cnblogs.com/daxiang/p/8572647.html)
 
+## 批量搜索字符串
+
+```bash
+@echo on
+rem #start####################
+rem bat  %~f0%
+rem path %log_dir%
+
+set log_dir=%1%
+
+if defined log_dir (
+  echo log_dir is "%log_dir%"
+rem  pause
+rem  goto last
+) else (
+echo "log_dir is not defined, please run it in command line with parameter set as the log dir"
+  pause
+  goto last
+)
+
+for /f "usebackq delims=" %%a in (`dir /b /s %log_dir%\*.log`) do (
+rem #####################tshark
+rem filename "%%a"
+echo "%%a" >> %log_dir%\all2.log
+findstr /C:"XXXXXXXXXXXXX" "%%a" >> %log_dir%\all2.log
+
+)
+
+echo DONE!!!!!
+pause
+
+:last
+
+
+```
+
 ## dir 参数
 
 ```bash
